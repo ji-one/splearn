@@ -34,7 +34,7 @@ public class Member {
 
     public void deactivate() {
         state(status == MemberStatus.ACTIVE, "ACTIVE 상태가 아닙니다");
-        // 의미있는 단위로 코드를 띄어내는 습관
+        // 의미있는 단위로 코드를 띄우는 습관
         this.status = MemberStatus.DEACTIVATED;
     }
 }
