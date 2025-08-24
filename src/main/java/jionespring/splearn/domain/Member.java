@@ -3,7 +3,6 @@ package jionespring.splearn.domain;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.Assert.state;
 
-import java.util.Objects;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -11,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class Member {
 
-    private String email;
+    private Email email;
 
     private String nickname;
 
@@ -19,15 +18,14 @@ public class Member {
 
     private MemberStatus status;
 
-    private Member() {
-    }
+    private Member() {}
 
     public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
         // 생성자 함수를 그냥 쓰면 필드를 초기화하는 코드에서 오류를 발견하기 어렵다.
         // 따라서 필드 초기화 코드에서 이름이 보이도록 명시적으로 수정한다.
-        member.email = requireNonNull(createRequest.email());
+        member.email = new Email(createRequest.email());
         member.nickname = requireNonNull(createRequest.nickname());
         member.passwordHash = requireNonNull(passwordEncoder.encode(createRequest.password()));
 
