@@ -1,6 +1,5 @@
 package jionespring.splearn.domain;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,8 +25,9 @@ class MemberTest {
                 return encode(password).equals(passwordHash);
             }
         };
-        member = Member.create("jione@splearn.app", "jione", "secret", passwordEncoder);
+        member = Member.create(new MemberCreateRequest("jione@splearn.app", "jione", "secret"), passwordEncoder);
     }
+
     @Test
     void createMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
@@ -87,5 +87,14 @@ class MemberTest {
     void changePassword() {
         member.changePassword("verysecret", passwordEncoder);
         Assertions.assertThat(member.verifyPassword("verysecret", passwordEncoder)).isTrue();
+    }
+
+    @Test
+    void isActive() {
+        assertThat(member.isActive()).isFalse();
+        member.activate();
+        assertThat(member.isActive()).isTrue();
+        member.deactivate();
+        assertThat(member.isActive()).isFalse();
     }
 }
